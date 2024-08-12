@@ -56,4 +56,17 @@ catch(err)
 res.send('Error')
 }
 })
+
+router.delete('/:id', async (req, res) => {
+    try {
+        const alien = await Alien.findById(req.params.id);
+        if (!alien) return res.status(404).json({ message: 'Alien not found' });
+
+        await alien.deleteOne();
+        res.json({ message: 'Alien deleted' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 module.exports = router
